@@ -11,18 +11,22 @@
   <header class="site-header">
     <div class="header-bar">
       <a class="logo" href="index.html">TourneyHub</a>
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span class="menu-icon"></span>
+     
       </button>
     </div>
-    <nav class="site-nav" aria-label="Primary">
-      <a href="tournaments.html">🏆 Tournaments</a>
-      <a href="profile.html" id="nav-profile">👤 My Dashboard</a>
-      <a href="wallet.html" id="nav-wallet">💰 Wallet</a>
-      <a href="admin.html" id="nav-admin" class="active">⚙️ Organizer Panel</a>
-      <a href="login.html" id="nav-login" class="btn btn-outline">🔑 Sign in / Join</a>
-    </nav>
+<!-- Bottom navigation (place as last element inside <body>) -->
+
   </header>
+
+  <!-- Bottom navigation (place as last element inside <body>) -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="tournaments.html" aria-label="Tournaments" data-route="tournaments">🏆</a>
+  <a href="profile.html" aria-label="My Dashboard" data-route="profile">👤</a>
+  <a href="wallet.html" aria-label="Wallet" data-route="wallet">💰</a>
+  <a href="admin.html" aria-label="Organizer Panel" data-route="admin">⚙️</a>
+  <a href="login.html" aria-label="Sign in / Join" data-route="login">🔑</a>
+</nav>
+
 
   <main class="container">
     <div class="section card">
@@ -37,10 +41,6 @@
       <div id="admin-content"></div>
     </div>
   </main>
-
-  <footer class="site-footer">
-    <p>© TourneyHub</p>
-  </footer>
 
   <script>
     // Tab switching logic

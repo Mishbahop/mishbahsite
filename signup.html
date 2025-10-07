@@ -2,15 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sign Up — TourneyHub</title>
+  <title>Signup — TourneyHub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
+
+  <!-- Firebase SDKs (compat version for browser) -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7QsyV2yb4f_acY9ETQnTSna7YHxwOJw4",
+      authDomain: "authapp-386ee.firebaseapp.com",
+      projectId: "authapp-386ee",
+      storageBucket: "authapp-386ee.firebasestorage.app",
+      messagingSenderId: "809698525310",
+      appId: "1:809698525310:web:5cb7de80bde9ed1f26982f",
+      measurementId: "G-EJZTSBSGQT"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body class="auth-body">
   <main class="auth-card">
-    <h1>Create your account</h1>
-    <p class="muted">Join tournaments, compete, and win rewards.</p>
+    <h1>Create Account</h1>
+    <p class="muted">Join TourneyHub and start competing.</p>
+
     <label class="input">
       <span>Email</span>
       <input id="signup-email" type="email" placeholder="you@example.com" />
@@ -19,16 +36,41 @@
       <span>Password</span>
       <input id="signup-password" type="password" placeholder="••••••••" />
     </label>
-    <label class="input">
-      <span>Role</span>
-      <select id="signup-role">
-        <option value="PLAYER">Player</option>
-        <option value="ORGANIZER">Organizer</option>
-        <option value="ADMIN">Admin</option>
-      </select>
-    </label>
-    <button id="signup-btn" class="btn btn-primary">Create Account</button>
-    <p class="tiny muted">Already have an account? <a href="login.html" class="link">Login here</a></p>
+    <button id="signup-btn" class="btn btn-primary">Sign Up</button>
+
+    <p class="tiny muted">
+      Already have an account? <a href="login.html" class="link">Login</a>
+    </p>
   </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const auth = firebase.auth();
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          window.location.href = "dashboard.html";
+        }
+      });
+
+      document.getElementById("signup-btn").addEventListener("click", async () => {
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value.trim();
+
+        if (!email || !password) {
+          alert("Please enter both email and password.");
+          return;
+        }
+
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          alert("Signup successful: " + userCredential.user.email);
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          alert("Signup failed: " + error.message);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

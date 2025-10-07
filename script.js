@@ -726,3 +726,183 @@ function processWithdrawalRequest(requestId, status, remark) {
 
 // Expose for admin.html
 window.processWithdrawalRequest = processWithdrawalRequest;
+// install: npm install express nodemailer body-parser cors
+const express = require("express");
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+let otpStore = {}; // { email: otp }
+
+const transporter = nodemailer.createTransport({
+  service: "gmail", // or use your SMTP provider
+  auth: {
+    user: "your-email@gmail.com",
+    pass: "your-app-password" // use app password, not your main password
+  }
+});
+
+// Send OTP
+app.post("/send-otp", async (req, res) => {
+  const { email } = req.body;
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  otpStore[email] = otp;
+
+  try {
+    await transporter.sendMail({
+      from: '"TourneyHub" <your-email@gmail.com>',
+      to: email,
+      subject: "Your OTP Code",
+      text: `Your OTP is ${otp}`
+    });
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false });
+  }
+});
+
+// Verify OTP
+app.post("/verify-otp", (req, res) => {
+  const { email, otp } = req.body;
+  if (otpStore[email] && otpStore[email] === otp) {
+    delete otpStore[email]; // clear after use
+    res.json({ success: true });
+  } else {
+    res.json({ success: false });
+  }
+});
+
+app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+document.addEventListener("DOMContentLoaded", () => {
+  const emailInput = document.getElementById("login-email");
+  const sendOtpBtn = document.getElementById("send-otp-btn");
+  const otpSection = document.getElementById("otp-section");
+  const verifyOtpBtn = document.getElementById("verify-otp-btn");
+  const otpInput = document.getElementById("login-otp");
+
+  let generatedOtp = null;
+
+  // Email validation
+  function isValidEmail(email) {
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  }
+
+  // Send OTP (demo only)
+  sendOtpBtn.addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Generate random 6-digit OTP
+    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // For demo: show OTP in alert (in real app, send via backend email)
+    alert("Your OTP is: " + generatedOtp);
+
+    otpSection.style.display = "block";
+  });
+
+  // Verify OTP
+  verifyOtpBtn.addEventListener("click", () => {
+    const enteredOtp = otpInput.value.trim();
+    if (enteredOtp === generatedOtp) {
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid OTP. Please try again.");
+    }
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const emailInput = document.getElementById("login-email");
+  const sendOtpBtn = document.getElementById("send-otp-btn");
+  const otpSection = document.getElementById("otp-section");
+  const otpInput = document.getElementById("login-otp");
+  const verifyOtpBtn = document.getElementById("verify-otp-btn");
+
+  let generatedOtp = null;
+
+  function isValidEmail(email) {
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  }
+
+  sendOtpBtn.addEventListener("click", () => {
+    const email = emailInput.value.trim();
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Generate OTP (demo only)
+    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // For demo: show OTP in alert (in real app, you'd send via backend email)
+    alert("Demo OTP (for testing): " + generatedOtp);
+
+    otpSection.style.display = "block";
+  });
+
+  verifyOtpBtn.addEventListener("click", () => {
+    const enteredOtp = otpInput.value.trim();
+    if (enteredOtp === generatedOtp) {
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("Invalid OTP. Try again.");
+    }
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const auth = firebase.auth();
+
+  const emailInput = document.getElementById("login-email");
+  const passwordInput = document.getElementById("login-password");
+  const loginBtn = document.getElementById("login-btn");
+
+  loginBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    try {
+      const userCredential = await auth.signInWithEmailAndPassword(email, password);
+      alert("Login successful! " + userCredential.user.email);
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      alert("Login failed: " + err.message);
+    }
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const auth = firebase.auth();
+
+  const emailInput = document.getElementById("login-email");
+  const passwordInput = document.getElementById("login-password");
+  const loginBtn = document.getElementById("login-btn");
+
+  loginBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    try {
+      const userCredential = await auth.signInWithEmailAndPassword(email, password);
+      console.log("Login successful:", userCredential.user);
+      alert("Welcome " + userCredential.user.email);
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      console.error("Login error:", error.code, error.message);
+      alert("Login failed: " + error.message);
+    }
+  });
+});

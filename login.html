@@ -5,12 +5,29 @@
   <title>Login — TourneyHub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="script.js"></script>
+
+  <!-- Firebase SDKs (compat version) -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7QsyV2yb4f_acY9ETQnTSna7YHxwOJw4",
+      authDomain: "authapp-386ee.firebaseapp.com",
+      projectId: "authapp-386ee",
+      storageBucket: "authapp-386ee.firebasestorage.app",
+      messagingSenderId: "809698525310",
+      appId: "1:809698525310:web:5cb7de80bde9ed1f26982f",
+      measurementId: "G-EJZTSBSGQT"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body class="auth-body">
   <main class="auth-card">
     <h1>Welcome back</h1>
     <p class="muted">Sign in to your account and join the action.</p>
+
     <label class="input">
       <span>Email</span>
       <input id="login-email" type="email" placeholder="you@example.com" />
@@ -20,7 +37,62 @@
       <input id="login-password" type="password" placeholder="••••••••" />
     </label>
     <button id="login-btn" class="btn btn-primary">Login</button>
-    <p class="tiny muted">Don't have an account? <a href="signup.html" class="link">Create one</a></p>
+
+    <p class="tiny muted">
+      <a href="#" id="forgot-password" class="link">Forgot password?</a>
+    </p>
+
+    <p class="tiny muted">
+      Don't have an account? <a href="signup.html" class="link">Create one</a>
+    </p>
   </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const auth = firebase.auth();
+
+      // Auto redirect if already logged in
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          window.location.href = "profile.html";
+        }
+      });
+
+      // Login logic
+      document.getElementById("login-btn").addEventListener("click", async () => {
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value.trim();
+
+        if (!email || !password) {
+          alert("Please enter both email and password.");
+          return;
+        }
+
+        try {
+          const userCredential = await auth.signInWithEmailAndPassword(email, password);
+          alert("Login successful: " + userCredential.user.email);
+          window.location.href = "dashboard.html";
+        } catch (error) {
+          alert("Login failed: " + error.message);
+        }
+      });
+
+      // Forgot password
+      document.getElementById("forgot-password").addEventListener("click", async () => {
+        const email = document.getElementById("login-email").value.trim();
+        if (!email) {
+          alert("Please enter your email to reset password.");
+          return;
+        }
+
+        try {
+          await auth.sendPasswordResetEmail(email);
+          alert("Password reset email sent to " + email);
+        } catch (error) {
+          alert("Error: " + error.message);
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7QsyV2yb4f_acY9ETQnTSna7YHxwOJw4",
+    authDomain: "authapp-386ee.firebaseapp.com",
+    projectId: "authapp-386ee",
+    storageBucket: "authapp-386ee.firebasestorage.app",
+    messagingSenderId: "809698525310",
+    appId: "1:809698525310:web:5cb7de80bde9ed1f26982f",
+    measurementId: "G-EJZTSBSGQT"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+
   <meta charset="UTF-8" />
   <title>TourneyHub — Play, Compete, Win</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,18 +26,8 @@
   <header class="site-header">
     <div class="header-bar">
       <a class="logo" href="index.html">TourneyHub</a>
-      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
-        <span class="menu-icon"></span>
       </button>
     </div>
-<!-- Example for admin.html navigation -->
-<nav class="site-nav" aria-label="Primary">
-  <a href="tournaments.html">🏆 Tournaments</a>
-  <a href="profile.html" id="nav-profile">👤 My Dashboard</a>
-  <a href="wallet.html" id="nav-wallet">💰 Wallet</a>
-  <a href="admin.html" id="nav-admin">⚙️ Organizer Panel</a>
-  <a href="login.html" id="nav-login" class="btn btn-outline">🔑 Sign in / Join</a>
-</nav>
   </header>
 
   <main class="container">
@@ -61,6 +66,26 @@
         </div>
         <div class="feature">
           <div class="icon">🔔</div>
+          <style>
+            .feature .icon {
+              font-size: 2.6rem;
+              margin-bottom: 16px;
+              color: var(--accent-light);
+            }
+            .feature h3 {
+              font-size: 1.25rem;
+              font-weight: 700;
+              margin-bottom: 10px;
+              color: var(--text);
+            }
+            .feature p {
+              color: var(--body-text);
+              font-size: 1.05rem;
+            }
+            .feature {
+              padding: 70px;
+            }
+          </style>
           <h3>Stay in the loop</h3>
           <p>Reminders and updates so nobody misses a match.</p>
         </div>
@@ -68,9 +93,13 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© TourneyHub. Admin demo: <strong>admin@tourneyhub.com</strong> / <strong>admin123</strong></p>
-  </footer>
-  
+  <!-- Bottom navigation (mobile) -->
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="tournaments.html" aria-label="Tournaments">🏆</a>
+    <a href="wallet.html" aria-label="Wallet">💰</a>
+    <a href="admin.html" aria-label="Organizer Panel">⚙️</a>
+    <a href="login.html" aria-label="Sign in / Join">🔑</a>
+       <a href="profile.html" aria-label="My Dashboard">👤</a>
+  </nav>
 </body>
 </html>

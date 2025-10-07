@@ -54,6 +54,7 @@
       padding: 10px 0;
       font-size: 14px;
       border-radius: 6px;
+      cursor: pointer;
     }
     .tab.active {
       background: #3b82f6;
@@ -114,6 +115,7 @@
       <button class="tab active" id="tab-my-tournaments">My Tournaments</button>
       <button class="tab" id="tab-my-matches">My Matches</button>
       <button class="tab" id="tab-my-gifts">My Gifts</button>
+      <button class="tab" id="tab-my-profile">My Profile</button>
     </nav>
 
     <section id="profile-content">
@@ -128,6 +130,10 @@
       <section id="my-gifts-section" class="section" style="display:none;">
         <div class="section-header"><h2>🎁 My Gifts</h2></div>
         <div id="my-gifts" class="list"></div>
+      </section>
+      <section id="my-profile-section" class="section" style="display:none;">
+        <div class="section-header"><h2>👤 My Profile</h2></div>
+        <div id="my-profile" class="list"></div>
       </section>
     </section>
   </main>
@@ -165,12 +171,14 @@
       const tabs = [
         document.getElementById("tab-my-tournaments"),
         document.getElementById("tab-my-matches"),
-        document.getElementById("tab-my-gifts")
+        document.getElementById("tab-my-gifts"),
+        document.getElementById("tab-my-profile")
       ];
       const sections = [
         document.getElementById("my-registrations-section"),
         document.getElementById("my-matches-section"),
-        document.getElementById("my-gifts-section")
+        document.getElementById("my-gifts-section"),
+        document.getElementById("my-profile-section")
       ];
       function showTab(idx) {
         tabs.forEach((tab, i) => tab.classList.toggle("active", i === idx));
@@ -180,25 +188,22 @@
       showTab(0);
 
       // Auth check
-      const profileContent = document.getElementById("profile-content");
       auth.onAuthStateChanged(user => {
         if (!user) {
           window.location.href = "login.html";
           return;
         }
 
-        const profileSection = document.createElement("section");
-        profileSection.className = "section";
-        profileSection.innerHTML = `
-          <div class="section-header"><h2>👤 My Profile</h2></div>
-          <div class="list">
-            <p><strong>Email:</strong> ${user.email}</p>
-            <p><strongUser ID:</strong> ${user.uid}</p>
-            <button id="logout-btn" class="btn-primary">Logout</button>
-          </div>
+        const profileBox = document.getElementById("my-profile");
+        profileBox.innerHTML = `
+          <p><strong>Email:</strong> ${user.email}</p>
+          <p><strong>User ID:</strong> ${user.uid}</p>
+          <p><strong>Created:</strong> ${new Date(user.metadata.creationTime).toLocaleString()}</p>
+          <p><strong>Last Login:</strong> ${new Date(user.metadata.lastSignInTime).toLocaleString()}</p>
+          <p><strong>Provider:</strong> ${user.providerData[0]?.providerId || "email"}</p>
+          <p><strong>Email Verified:</strong> ${user.emailVerified ? "✅ Yes" : "❌ No"}</p>
+          <button id="logout-btn" class="btn-primary">Logout</button>
         `;
-        profileContent.prepend(profileSection);
-
         document.getElementById("logout-btn").addEventListener("click", async () => {
           await auth.signOut();
           window.location.href = "login.html";

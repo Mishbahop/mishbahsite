@@ -979,5 +979,78 @@ p { margin-bottom:1em; color: var(--muted); }
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 8px 24px rgba(0,0,0,0.10);
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 
-/* ...existing code... */
+/* Reserve space for the fixed bottom bar */
+body {
+  padding-bottom: calc(56px + env(safe-area-inset-bottom));
+}
+
+/* Avoid transforms on ancestors that can break fixed positioning */
+.site-header {
+  transform: none;
+  filter: none;
+  perspective: none;
+}
+
+/* Bottom nav pinned to viewport bottom */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: #fff;
+  border-top: 1px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav a {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 0;
+}
+
+/* Hide on larger screens if desired */
+@media (min-width: 768px) {
+  .bottom-nav { display: none; }
+}
+/* Transparent bottom nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.2); /* semi-transparent white */
+  backdrop-filter: blur(10px);          /* frosted glass effect */
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10000;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-nav.transparent a {
+  flex: 1;
+  text-align: center;
+  font-size: 22px;
+  color: #fff; /* white icons for contrast */
+  text-decoration: none;
+}
+
+.bottom-nav.transparent a.active {
+  color: #38bdf8; /* highlight active link */
+}
