@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Dashboard — TourneyHub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-bar">
+      <a class="logo" href="index.html">TourneyHub</a>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="menu-icon"></span>
+      </button>
+    </div>
+<!-- Example for admin.html navigation -->
+<nav class="site-nav" aria-label="Primary">
+  <a href="tournaments.html">🏆 Tournaments</a>
+  <a href="profile.html" id="nav-profile">👤 My Dashboard</a>
+  <a href="wallet.html" id="nav-wallet">💰 Wallet</a>
+  <a href="admin.html" id="nav-admin">⚙️ Organizer Panel</a>
+  <a href="login.html" id="nav-login" class="btn btn-outline">🔑 Sign in / Join</a>
+</nav>
+  </header>
+
+  <main class="container">
+    <nav class="tabs" style="margin-bottom:24px;">
+      <button class="tab active" id="tab-my-tournaments">My Tournaments</button>
+      <button class="tab" id="tab-my-matches">My Matches</button>
+      <button class="tab" id="tab-my-gifts">My Gifts</button>
+    </nav>
+    <section id="profile-content">
+      <section id="my-registrations-section" class="section">
+        <div class="section-header">
+          <h2>🎟️ My Tournaments</h2>
+        </div>
+        <div id="my-registrations" class="list"></div>
+      </section>
+      <section id="my-matches-section" class="section" style="display:none;">
+        <div class="section-header">
+          <h2>📅 My Matches</h2>
+        </div>
+        <div id="my-matches" class="list"></div>
+      </section>
+      <section id="my-gifts-section" class="section" style="display:none;">
+        <div class="section-header">
+          <h2>🎁 My Gifts</h2>
+        </div>
+        <div id="my-gifts" class="list"></div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© TourneyHub</p>
+  </footer>
+  <script>
+    // Tab navigation for profile
+    document.addEventListener("DOMContentLoaded", function() {
+      const tabTournaments = document.getElementById("tab-my-tournaments");
+      const tabMatches = document.getElementById("tab-my-matches");
+      const tabGifts = document.getElementById("tab-my-gifts");
+      const sectionTournaments = document.getElementById("my-registrations-section");
+      const sectionMatches = document.getElementById("my-matches-section");
+      const sectionGifts = document.getElementById("my-gifts-section");
+      const tabs = [tabTournaments, tabMatches, tabGifts];
+      const sections = [sectionTournaments, sectionMatches, sectionGifts];
+
+      function showTab(idx) {
+        tabs.forEach((tab, i) => tab.classList.toggle("active", i === idx));
+        sections.forEach((sec, i) => sec.style.display = i === idx ? "" : "none");
+      }
+
+      tabTournaments.onclick = () => showTab(0);
+      tabMatches.onclick = () => showTab(1);
+      tabGifts.onclick = () => showTab(2);
+
+      showTab(0); // default
+    });
+  </script>
+</body>
+</html>
