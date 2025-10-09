@@ -4,14 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>TourneyHub — Tournaments</title>
-   <link rel="stylesheet" href="styles.css" />
-    <nav class="bottom-nav" aria-label="Mobile navigation">
-       <a href="index.html" aria-label="Tournaments">🏠</a>
-    <a href="tournaments.html" aria-label="Tournaments">🏆</a>
-    <a href="wallet.html" aria-label="Wallet">💰</a>
-    <a href="admin.html" aria-label="Organizer Panel">⚙️</a>
-    <a href="login.html" aria-label="Sign in / Join">🔑</a>
-       <a href="dashboard.html" aria-label="My Dashboard">👤</a>
+ <link rel="stylesheet" href="style.css" />
+      <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="tournaments.html" class="nav-item">🏆<span>Tournaments</span></a>
+    <a href="wallet.html" class="nav-item">💰<span>Wallet</span></a>
+    <a href="admin.html" class="nav-item">⚙️<span>Organizer</span></a>
+    <a href="login.html" class="nav-item">🔑<span>Login</span></a>
+    <a href="dashboard.html" class="nav-item">👤<span>Dashboard</span></a>
   </nav>
 <style>
   body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;background:#0b0f1a;color:#f1f5f9}
@@ -33,6 +33,10 @@
   .card-meta{margin-top:6px;color:#cbd5e1;font-size:13px}
   .action-row{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
   a.link{color:#93c5fd;text-decoration:none;padding:6px;border-radius:6px}
+  body{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:#0b0f1a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;align-items:center;padding-bottom:env(safe-area-inset-bottom);z-index:100}
+  .bottom-nav a{font-size:1.6rem;color:#64748b;text-decoration:none}
+  .bottom-nav a.active,.bottom-nav a:hover{color:#38bdf8}
 </style>
 </head>
 <body>
@@ -326,7 +330,7 @@
       myJoined.innerHTML = '<div class="no-data">Error loading joined tournaments</div>';
     }
   }
+
 </script>
 </body>
 </html>
-
