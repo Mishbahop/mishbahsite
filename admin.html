@@ -4,6 +4,15 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>TourneyHub Admin</title>
+
+     <nav class="bottom-nav" aria-label="Primary">
+      <a href="tournaments.html" class="active">🏆</a>
+      <a href="dashboard.html">👤</a>
+      <a href="wallet.html">💰 </a>
+      <a href="admin.html">⚙️ </a>
+      <a href="index.html">🏠 </a>
+      <a href="dashboard.html" class="btn-outline">🔑</a>
+    </nav>
 <style>
   :root{--bg:#070812;--panel:#0f1724;--card:#0b1220;--line:#1f2a38;--text:#e6eef8;--muted:#9aa6b2;--accent:#2563eb;--ok:#16a34a;--bad:#ef4444;--radius:10px}
   html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto;color:var(--text);background:var(--bg)}
@@ -30,7 +39,10 @@
   .danger{background:var(--bad)}
   .no-data{color:var(--muted);padding:10px;text-align:center}
   .grid.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
-  .card-small{background:transparent;border:1px solid var(--line);padding:10px;border-radius:8px}
+  body{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:56px;background:#0b0f1a;border-top:1px solid #1e293b;display:flex;justify-content:space-around;align-items:center;padding-bottom:env(safe-area-inset-bottom);z-index:100}
+  .bottom-nav a{font-size:1.6rem;color:#64748b;text-decoration:none}
+  .bottom-nav a.active,.bottom-nav a:hover{color:#38bdf8}
 </style>
 </head>
 <body>
